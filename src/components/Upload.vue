@@ -23,8 +23,8 @@
                 <div class="col-lg-6">
                     <p class="font-italic text-white text-center">The image uploaded: {{imgName}}</p>
                     <div class="image-area mt-4"><img id="imageResult" :src="imgSrc" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
-                    <button type="button" class="btn btn-primary" @click="postImg">Submit</button>
-                    <i v-show="!showSpin">Please Upload an Image</i>
+                    <button type="button" class="btn" :class="[ fileEmpty ? btn-alert : btn-promary ]" @click="postImg">Submit</button>
+                    <i v-show="fileEmpty">Please Upload an Image</i>
                 </div>
 
                 <!-- extract information area -->
@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       selectedImg: null,
+      fileEmpty: false,
       imgName: "",
       imgSrc: null,
       imgBase64: null,
@@ -81,6 +82,7 @@ export default {
     async postImg() {
         if (this.selectedImg !== null) {
             this.showSpin = true
+            this.fileEmpty = false
             const reader = new FileReader()
             reader.readAsDataURL(this.selectedImg)
             reader.onloadend = () => {
@@ -92,11 +94,14 @@ export default {
                     this.response = response.data
                     console.log(this.response)
                     this.showSpin = false
+                    this.selectedImg = null
                 })
                 .catch((error)=>{
                     console.log(error())
                 })
             }
+        } else {
+            this.fileEmpty = true
         }
         
     }
