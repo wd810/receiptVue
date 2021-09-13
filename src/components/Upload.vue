@@ -23,7 +23,7 @@
                 <div class="col-lg-6">
                     <p class="font-italic text-white text-center">The image uploaded: {{imgName}}</p>
                     <div class="image-area mt-4"><img id="imageResult" :src="imgSrc" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
-                    <button type="button" class="btn" :class="[ fileEmpty ? btn-alert : btn-promary ]" @click="postImg">Submit</button>
+                    <button type="button" class="btn" :class="fileEmpty ? 'btn-danger' : 'btn-primary'" @click="postImg">Submit</button>
                     <i v-show="fileEmpty">Please Upload an Image</i>
                 </div>
 
