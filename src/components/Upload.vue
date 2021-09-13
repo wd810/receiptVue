@@ -24,6 +24,7 @@
                     <p class="font-italic text-white text-center">The image uploaded: {{imgName}}</p>
                     <div class="image-area mt-4"><img id="imageResult" :src="imgSrc" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div>
                     <button type="button" class="btn btn-primary" @click="postImg">Submit</button>
+                    <i v-show="!showSpin">Please Upload an Image</i>
                 </div>
 
                 <!-- extract information area -->
@@ -78,24 +79,25 @@ export default {
         this.imgSrc = URL.createObjectURL(this.selectedImg)
     },
     async postImg() {
-        this.showSpin = true
-        const reader = new FileReader()
-        reader.readAsDataURL(this.selectedImg)
-        reader.onloadend = () => {
-            this.imgBase64 = reader.result
-            let data = {"base64": this.imgBase64}
-            // console.log(data)
-            axios.post(this.API, data)
-            .then((response)=>{
-                this.response = response.data
-                console.log(this.response)
-                this.showSpin = false
-            })
-            .catch((error)=>{
-                console.log(error())
-            })
+        if (this.selectedImg !== null) {
+            this.showSpin = true
+            const reader = new FileReader()
+            reader.readAsDataURL(this.selectedImg)
+            reader.onloadend = () => {
+                this.imgBase64 = reader.result
+                let data = {"base64": this.imgBase64}
+                // console.log(data)
+                axios.post(this.API, data)
+                .then((response)=>{
+                    this.response = response.data
+                    console.log(this.response)
+                    this.showSpin = false
+                })
+                .catch((error)=>{
+                    console.log(error())
+                })
+            }
         }
-        
         
     }
 
