@@ -68,7 +68,7 @@ export default {
       imgBase64: null,
       response: {},
       showSpin: false,
-      API: "https://flask-app-back.herokuapp.com/upload"
+      API: process.env.VUE_APP_API_BASE_URL
     }
   },
   methods: {
